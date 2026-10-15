@@ -10,8 +10,11 @@ I also used additional ArrayLists to store unique values, count occurrences, and
 
 ## Design Decisions
 
-Each row of the CSV file is stored as an `ArtInstallation` object to keep the information for each installation organized and encapsulated.
-
+- Searches are case-insensitive to make matching station, artist, and line names more flexible.
+- Missing or invalid installation years are ignored when calculating the average year and placed last when sorting.
+- A `Comparator` is used to sort installations by year without changing the original catalog order.
+- Multiple artists are returned if there is a tie for the most installations.
+- Methods return empty lists instead of `null` when no matches are found.
 
 ## Compile and Run
 

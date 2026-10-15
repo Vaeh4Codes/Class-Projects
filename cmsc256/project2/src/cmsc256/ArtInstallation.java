@@ -1,24 +1,26 @@
+package cmsc256;
+
 public class ArtInstallation {
     private String agency;
     private String stationName;
-    private int line;
+    private String line;
     private String artist;
     private String artTitle;
-    private int artDate;
+    private String artDate;
     private String artMaterial;
     private String artImageLink;
 
     public ArtInstallation() {
         this.agency = "n/a";
         this.stationName = "n/a";
-        this.line = 0;
+        this.line = "";
         this.artist = "n/a";
         this.artTitle = "n/a";
-        this.artDate = 0;
+        this.artDate = "";
         this.artMaterial = "n/a";
         this.artImageLink = "n/a";
     }
-    public ArtInstallation(String agency, String stationName, int line, String artist, String artTitle, int artDate, String artMaterial, String artImageLink) {
+    public ArtInstallation(String agency, String stationName, String line, String artist, String artTitle, String artDate, String artMaterial, String artImageLink) {
         this.agency = agency;
         this.stationName = stationName;
         this.line = line;
@@ -45,11 +47,11 @@ public class ArtInstallation {
         this.stationName = stationName;
     }
 
-    public int getLine() {
+    public String getLine() {
         return line;
     }
 
-    public void setLine(int line) {
+    public void setLine(String line) {
         this.line = line;
     }
 
@@ -69,11 +71,11 @@ public class ArtInstallation {
         this.artTitle = artTitle;
     }
 
-    public int getArtDate() {
+    public String getArtDate() {
         return artDate;
     }
 
-    public void setArtDate(int artDate) {
+    public void setArtDate(String artDate) {
         this.artDate = artDate;
     }
 

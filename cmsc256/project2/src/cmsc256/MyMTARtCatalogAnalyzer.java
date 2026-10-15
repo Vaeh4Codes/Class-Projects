@@ -1,14 +1,22 @@
+package cmsc256;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-public class MyMTARtCatalogAnalyzer extends ArtInstallation implements MTARtCatalogAnalyzer {
+public class MyMTARtCatalogAnalyzer implements MTARtCatalogAnalyzer {
     private ArrayList<ArtInstallation> artCatalog;
+
+    /**
+     * Constructor
+     */
+    public MyMTARtCatalogAnalyzer() {
+        artCatalog = new ArrayList<>();
+    }
 
     /**
      * Reads the provided CSV file and populates the internal data structure(s)
@@ -24,26 +32,55 @@ public class MyMTARtCatalogAnalyzer extends ArtInstallation implements MTARtCata
           File dataCSV = new File(csvFileName);
           Scanner input = new Scanner(dataCSV);
 
-          while(input.hasNextLine()){
-              String recordLine = input.nextLine();
-              String[] record = recordLine.split(",");
-              String agency = record[0];
-              String stationName = record[1];
-              int line = intConversion(record[2]);
-              String artist = record[3];
-              String artTitle = record[4];
-              int artDate = intConversion(record[5]);
-              String artMaterial = record[6];
-              String artImageLink = record[7];
+            if (!input.hasNextLine()) {
+                input.close();
+                return false;
+            }
 
-              ArtInstallation artwork = new ArtInstallation(agency, stationName, line, artist, artTitle,artDate,artMaterial,artImageLink);
-              artCatalog.add(artwork);
-          }
+            input.nextLine();
 
-          return true;
-        }catch (FileNotFoundException e){
+            if(!input.hasNextLine()){
+                input.close();
+                return false;
+            }
+
+            while (input.hasNextLine()) {
+
+                String recordLine = input.nextLine();
+
+                // -1 keeps empty fields
+                String[] record = recordLine.split(",", -1);
+
+                if (record.length >= 8) {
+
+                    String agency = record[0].trim();
+                    String stationName = record[1].trim();
+                    String line = record[2].trim();
+                    String artist = record[3].trim();
+                    String artTitle = record[4].trim();
+                    String artDate = record[5].trim();
+                    String artMaterial = record[6].trim();
+                    String artImageLink = record[7].trim();
+
+                    ArtInstallation artwork = new ArtInstallation(
+                        agency,
+                        stationName,
+                        line,
+                        artist,
+                        artTitle,
+                        artDate,
+                        artMaterial,
+                        artImageLink
+                    );
+
+                    artCatalog.add(artwork);
+                }
+            }
+
+            input.close();
+            return true;
+        } catch (FileNotFoundException e) {
             System.out.println("File Not Found.");
-
             return false;
         }
     }
@@ -56,7 +93,7 @@ public class MyMTARtCatalogAnalyzer extends ArtInstallation implements MTARtCata
      */
     public int intConversion(String numberText){
         try{
-            int num = Integer.parseInt(numberText);
+            int num = Integer.parseInt(numberText.trim());
             return num;
         } catch (NumberFormatException e){
             return -1;
@@ -116,7 +153,7 @@ public class MyMTARtCatalogAnalyzer extends ArtInstallation implements MTARtCata
         ArrayList<ArtInstallation> stationSpecific = new ArrayList<>();
 
         for(ArtInstallation installation: artCatalog){
-            if(installation.getStationName().equals(stationName)){
+            if(installation.getStationName().equalsIgnoreCase(stationName)){
                 stationSpecific.add(installation);
             }
         }
@@ -134,7 +171,7 @@ public class MyMTARtCatalogAnalyzer extends ArtInstallation implements MTARtCata
         ArrayList<ArtInstallation> artBySelectArtist = new ArrayList<>();
 
         for(ArtInstallation installation: artCatalog){
-            if(installation.getStationName().equals(artistName)){
+            if(installation.getArtist().equalsIgnoreCase(artistName)){
                 artBySelectArtist.add(installation);
             }
         }
@@ -150,17 +187,23 @@ public class MyMTARtCatalogAnalyzer extends ArtInstallation implements MTARtCata
      */
     @Override
     public double getAverageInstallationYear() {
-        double sumYears = 0, average = 0;
+        double sumYears = 0;
+        double validYears = 0;
 
         for(ArtInstallation installation: artCatalog){
             //TODO: handle missing years
-            double year = getAverageInstallationYear();
+            int year = intConversion(installation.getArtDate());
 
-            sumYears+=year;
+            if (year != -1) {
+                sumYears += year;
+                validYears++;
+            }
         }
 
-        average = sumYears / artCatalog.size();
-        return average;
+        if(validYears == 0){
+            return 0.0;
+        }
+        return sumYears/ validYears;
     }
 
     /**
@@ -190,12 +233,6 @@ public class MyMTARtCatalogAnalyzer extends ArtInstallation implements MTARtCata
         }
 
         int max = 0;
-
-        for(int count: counts){
-            if(count >= max){
-                max++;
-            }
-        }
 
         for(int count : counts) {
             if (count > max) {
@@ -249,7 +286,7 @@ public class MyMTARtCatalogAnalyzer extends ArtInstallation implements MTARtCata
      */
     @Override
     public List<ArtInstallation> getInstallationsSortedByYear() {
-        ArrayList<ArtInstallation> sortedInstallations = new ArrayList<>();
+        ArrayList<ArtInstallation> sortedInstallations = new ArrayList<>(artCatalog);
         //TODO: handle installations with no year
         Comparator<ArtInstallation> yearComparator = new Comparator<ArtInstallation>() {
             @Override
@@ -305,8 +342,9 @@ public class MyMTARtCatalogAnalyzer extends ArtInstallation implements MTARtCata
         for(ArtInstallation installation : artCatalog) {
             String artist = installation.getArtist().toLowerCase();
             String title = installation.getArtTitle().toLowerCase();
+            String material = installation.getArtMaterial().toLowerCase();
 
-            if(artist.contains(searchWord) || title.contains(searchWord)) {
+            if(artist.contains(searchWord) || title.contains(searchWord) || material.contains(searchWord)) {
                 matches.add(installation);
             }
         }
