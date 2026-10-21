@@ -1,0 +1,29 @@
+---
+description: Write math in Markdown with Unicode symbols, not LaTeX
+globs: "**/*.md"
+alwaysApply: false
+---
+
+# Markdown math
+
+The Markdown preview in this repo does not render LaTeX. In every `.md` file, write equations and formulas as Unicode symbols, using `formulas/Chapter4-VectorSpaces.md` as the model.
+
+- Put a display equation on its own line and bold it: `**𝐮 + 𝐯 = (u₁ + v₁, …, uₙ + vₙ)**`
+- Use symbols in tables and sentences the same way: `𝐯 ∈ V`, `W ⊆ V`, `ℝⁿ`, `Pₙ`, `Mₘ,ₙ`.
+- Put aligned matrices in a fenced code block so the brackets stay lined up.
+- Name operations in plain text: `span(S)`, `dim(ℝⁿ)`, `det(A)`, `rank(A)`, `Null(A)`.
+
+Do not use `$`, `$$`, `\(...\)`, `\[...\]`, or commands such as `\mathbb`, `\mathbf`, `\operatorname`, or `\begin{bmatrix}`.
+
+```
+Bad:  $$\mathbb{R}^n=\{(x_1,\ldots,x_n):x_i\in\mathbb{R}\}$$
+Good: **ℝⁿ = {(x₁, …, xₙ) : xᵢ ∈ ℝ}**
+```
+
+```
+        ⎡ 1 ⎤
+𝐯₁  =   ⎢ 0 ⎥
+        ⎣ 1 ⎦
+```
+
+Common symbols: ℝ ∈ ⊆ ≠ ≥ ∅ × ⟹ ⟺ ↔ ← … ⋯ −. Bold vectors 𝐮 𝐯 𝐰 𝐛 𝐜 𝐱, zero vector 𝟎, subscripts ₀₁₂₃ₙₘₖᵢ, superscripts ⁰¹²³ⁿ.
