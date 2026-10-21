@@ -1,0 +1,12 @@
+# Publisher files stay on this machine so they can be used as local
+# study context without being committed to Class-Projects.
+textbook/**
+!textbook/README.md
+
+private/**
+!private/README.md
+
+# Solution manuals and answer keys
+**/*solution-manual*
+**/*solutions-manual*
+**/*answer-key*

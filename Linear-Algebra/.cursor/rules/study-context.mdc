@@ -1,0 +1,17 @@
+---
+description: Study context for Larson Elementary Linear Algebra 8e
+alwaysApply: true
+---
+
+# Linear algebra study context
+
+This workspace is a study library for Ron Larson, Elementary Linear Algebra, 8th edition.
+
+- Start from `catalog.md`, then open the matching file in `notes/` or `practice/`.
+- The textbook PDF belongs in `textbook/` and is gitignored. Read it when a section is named. Do not paste long verbatim excerpts into notes or chat.
+- Files that should stay off GitHub belong in `private/`.
+- Explain a section in your own words and cite the section number (for example 4.5).
+- When the user asks to save a problem, add it as `### Section # Problem #` with the statement directly under that heading. Follow `practice/README.md`.
+- Prefer the student's notes in `notes/` when they already cover the topic. If a definition is missing, state it freshly and point at the section.
+
+Example: for “help with 2.3”, read `notes/ch02-matrices.md` and the inverse section of the local PDF, then work the exercise without copying the book’s solution text into the repo.
